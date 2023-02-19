@@ -1,52 +1,46 @@
 #include <stdio.h>
-#include <Windows.h>
- 
-void StrCpySelfMade(char* s1, const char* s2);
- 
-void main()
-{
-    char s1[100] = "Imagine Explosion";
-    char s2[100] = { 0 };
-    char c;
-    int count = 0;
- 
-    printf("( s1 ) is : [ %s ]\n",s1);
- 
-    printf("\n");
- 
-    printf("( s2 ) : ");
-    for (; (c = getchar()) != '\n';)
-    {
-        s2[count] = c;
-        count++;
-    }
- 
-    
- 
-    printf("\n");
-    Sleep(500);
-    printf("[*] WAIT, StrCpySelfMade function is running...\n");
-    Sleep(2000);
- 
-    printf("\n");
-    
-    StrCpySelfMade(s1, s2);
- 
-    printf("s1 : [ %s ] ,\ns2 : [ %s ] \n\n", s1, s2);
- 
- 
+#include <string.h>
+
+#define MAXN ((int)1e6)
+#define MAXB (36)
+char str[MAXN + 10];
+char boom[MAXB + 10];
+char sol[MAXN + 10]; // 최종 문자열 표시
+int sptr; int ao;
+
+void InputData(void) {
+	scanf("%s", str);
+	scanf("%s", boom);
 }
- 
-void StrCpySelfMade(char* s1, const char* s2)
-{
-    int i = 0;
- 
-    // 문자열이 끝날 때까지(\0) s2의 문자열을 s1에 복사합니다
-    for (i = 0; s2[i] != '\0'; i++)
-        s1[i] = s2[i];
- 
-    // s2[i] = '\0'
-    // s1의 마지막에 '\0'을 입력해서 문자열의 끝을 알립니다
-    s1[i] = s2[i];
- 
+void Solve(void) {
+	int cnt = 0;
+	int t;
+	int boom_len = strlen(boom);
+	for ( i = 0; str[i] ; i++) {
+		sol[sptr++] = str[i]; //일단 push 하고
+		if ((sptr >= boom_len) && (str[i]) == (boom[boom_len - 1])) {
+			cnt = 0;
+			
+			int j;// 들어온게 마지막 글자하고 같으면 그 앞으로 boom 배열하고 비교	
+			for (j = 1; j <= boom_len; j++) {
+				if (sol[sptr - j] == boom[boom_len - j]) {
+					cnt++;
+				}
+				else break;
+			}
+			if (cnt == boom_len) {
+				sptr -= cnt;
+			}
+		}
+	}
+    // 출력하기전에 스택포인터 위치에 NULL문자 입력
+	sol[sptr] = 0;
+	return;
+}
+int main(void) {
+	InputData();
+	Solve();
+	if (sptr == 0) printf("FRULA");
+	else printf("%s", sol);
+	return 0;
 }
